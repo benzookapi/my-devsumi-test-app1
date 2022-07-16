@@ -1,0 +1,26 @@
+name: Deploy extension
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Install npm dependencies
+        run: npm install
+      - name: Deploy
+        env:
+          # Token from the Partner Dashboard
+          SHOPIFY_CLI_PARTNERS_TOKEN: atkn_12601d8dd33767f9d9126c611a1895d008f6efbb9b74ebfb9f9f99b3024c9368
+          # .env content after a deploy
+          SHOPIFY_API_KEY: 799cf2da3e1059ba09cfcd72f2ee9a52
+          SHOPIFY_MY_DEVSUMI_THEME_EXT1_ID: fc29e13f-c7ba-42f2-a9cc-6875c6f4f29f
+        run: npm run deploy
